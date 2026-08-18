@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # Rebuilds daily so posts scheduled with a future `date` in their
+    # frontmatter go live on their own once that date arrives, without
+    # requiring a manual push on publish day.
+    - cron: "0 6 * * *"
 
 permissions:
   contents: read

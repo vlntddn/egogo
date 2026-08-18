@@ -9,6 +9,16 @@ export default function Home() {
       <header className="flex flex-col gap-2">
         <h1 className="text-2xl font-semibold">egogo</h1>
         <p className="text-sm text-neutral-500">Content, published.</p>
+        <p className="text-xs text-neutral-400">
+          Subscribe via{" "}
+          <Link href="/feed.xml" className="underline-offset-4 hover:underline">
+            RSS
+          </Link>{" "}
+          or{" "}
+          <Link href="/feed.json" className="underline-offset-4 hover:underline">
+            JSON feed
+          </Link>
+        </p>
       </header>
 
       <ul className="flex flex-col gap-6">

@@ -1,9 +1,43 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getAllSlugs, getPostBySlug } from "@/lib/posts";
+import { SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  if (!getAllSlugs().includes(slug)) {
+    return {};
+  }
+
+  const post = await getPostBySlug(slug);
+  const url = `${SITE_URL}/posts/${post.slug}`;
+
+  return {
+    title: post.title,
+    description: post.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url,
+      type: "article",
+      publishedTime: post.date,
+    },
+    twitter: {
+      card: "summary",
+      title: post.title,
+      description: post.description,
+    },
+  };
 }
 
 export default async function PostPage({
